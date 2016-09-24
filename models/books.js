@@ -1,6 +1,22 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var custom = [
+    function(value) {
+        // 'this' is the document being validated
+        return this.possibleValues && this.possibleValues.indexOf(value) !== -1;
+    },
+    'value must be contained in possbileValues'
+];
+
+var categorySchema = new Schema({
+    possibleValues: ['ROMANCE', 'FICTION','MANUAL','ADVENTURE'], //
+    value: {
+        type: String,
+        validate: custom
+    }
+
+});
 // create a schema
 var bookSchema = new Schema({
     name: {
@@ -13,7 +29,12 @@ var bookSchema = new Schema({
     },
     synopsis: {
         type: String
-    }
+    },
+    authors: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Authors'
+    }],
+    categories: [categorySchema]
 }, {
     timestamps: true
 });
