@@ -19,7 +19,8 @@ var bookSchema = new Schema({
     authors: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Authors'
-    }], categories: [{
+    }],
+    categories: [{
         type: String,
         enum: ['ROMANCE', 'FICTION', 'MANUAL', 'ADVENTURE']
     }]
