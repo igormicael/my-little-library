@@ -1,20 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-/*var custom = [
-    function(value) {
-        // 'this' is the document being validated
-        return this.possibleValues && this.possibleValues.indexOf(value) !== -1;
-    },
-    'value must be contained in possbileValues'
-];*/
-
 /*var categorySchema = new Schema({
-    possibleValues: ['ROMANCE', 'FICTION','MANUAL','ADVENTURE'], //
-    value: {
-        type: String,
-        validate: custom
-    }
+    type: String,
+    enum: ['ROMANCE', 'FICTION', 'MANUAL', 'ADVENTURE']
 
 });*/
 
@@ -32,11 +21,14 @@ var bookSchema = new Schema({
     synopsis: {
         type: String,
         default: ""
-    }/*,
+    },
     authors: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Authors'
-    }]*/ //, categories: [categorySchema]
+    }], categories: [{
+        type: String,
+        enum: ['ROMANCE', 'FICTION', 'MANUAL', 'ADVENTURE']
+    }]
 }, {
     timestamps: true
 });

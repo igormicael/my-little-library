@@ -24,20 +24,19 @@ bookRouter.route('/')
     .post(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
 
         Books.create(req.body, function(err, book) {
-            if (err) next (err);
-            console.log('Books created!');
-            console.log(book);
-            var id = book._id;
+            if (err) {
+                console.log(err);
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                res.end('Error when trying to save book');
+            }else{
+                console.log('Books created!');
+                console.log(book);
+                var id = book._id;
 
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('Added the Book with id: ');
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                res.end('Added the Book with id: ' + id);
+            }
         });
-    })
-    /*.delete(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
-        Dishes.remove({}, function(err, resp) {
-            if (err) throw err;
-            res.json(resp);
-        });
-    });*/
+    });
 
 module.exports = bookRouter;
