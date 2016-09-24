@@ -13,7 +13,7 @@ var userBookSchema = new Schema({
     },
     book: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Book',
+        ref: 'Books',
         required : true
     },
     readingStatus : [{

@@ -5,31 +5,34 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var UserBook = require('../models/userBook');
 var Verify = require('./verify');
+
+var UserBook = require('../models/userBook');
+var Books = require('../models/books');
 
 var userBookRouter = express.Router();
 
 userBookRouter.use(bodyParser.json());
 
 userBookRouter.route('/')
-    .get(function(req, res, next) {
-        UserBook.find(req.query)
+    .get(Verify.verifyOrdinaryUser, function (req, res, next) {
+
+        UserBook.find({'user': req.decoded._id})
             .populate('user')
             .populate('book')
-            .exec(function(err, dish) {
-                if (err) next (err);
+            .exec(function (err, dish) {
+                if (err) next(err);
                 res.json(dish);
             })
     })
-    .post(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
+    .post(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function (req, res, next) {
 
-        UserBook.create(req.body, function(err, userBook) {
+        UserBook.create(req.body, function (err, userBook) {
             if (err) {
                 console.log(err);
-                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                res.writeHead(200, {'Content-Type': 'text/plain'});
                 res.end('Error when trying to save userBook');
-            }else{
+            } else {
                 console.log('Book created!');
                 console.log(userBook);
                 var id = userBook._id;
@@ -39,5 +42,24 @@ userBookRouter.route('/')
             }
         });
     });
+
+userBookRouter.route('/:userBookId')
+    .get(Verify.verifyOrdinaryUser, function (req, res, next) {
+        UserBook.findById(req.params.userBookId)
+            .populate('book')
+            .exec(function (err, userBook) {
+                if (err) next(err);
+                res.json(userBook);
+            })
+    })
+    .put(Verify.verifyOrdinaryUser, function (req, res, next) {
+        Books.findByIdAndUpdate(req.params.userBookId, {
+            $set: req.body
+        }, {new: true}, function (err, userBook) {
+            if (err) next(err);
+            res.json(userBook);
+        });
+    });
+;
 
 module.exports = userBookRouter;

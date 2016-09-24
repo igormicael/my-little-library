@@ -39,4 +39,20 @@ seriesRouter.route('/')
         });
     });
 
+seriesRouter.route('/:serieId')
+    .get(Verify.verifyOrdinaryUser, function (req, res, next) {
+        Series.findById(req.params.serieId, function (err, series) {
+            if (err) next(err);
+            res.json(series);
+        })
+    })
+    .put(Verify.verifyAdmin, function (req, res, next) {
+        Series.findByIdAndUpdate(req.params.serieId, {
+            $set: req.body
+        }, {new: true}, function (err, series) {
+            if (err) next(err);
+            res.json(series);
+        });
+    });
+
 module.exports = seriesRouter;

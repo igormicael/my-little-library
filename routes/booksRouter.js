@@ -35,4 +35,20 @@ bookRouter.route('/')
         });
     });
 
+bookRouter.route('/:bookId')
+    .get(Verify.verifyOrdinaryUser, function (req, res, next) {
+        Books.findById(req.params.bookId, function (err, book) {
+            if (err) next(err);
+            res.json(book);
+        })
+    })
+    .put(Verify.verifyAdmin, function (req, res, next) {
+        Books.findByIdAndUpdate(req.params.bookId, {
+            $set: req.body
+        }, {new: true}, function (err, book) {
+            if (err) next(err);
+            res.json(book);
+        });
+    });
+
 module.exports = bookRouter;
