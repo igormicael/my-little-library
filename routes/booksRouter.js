@@ -15,7 +15,7 @@ bookRouter.route('/')
          res.json(dish);
          });*/
         Books.find(req.query)
-            //.populate('categories.value')
+            .populate('authors')
             .exec(function(err, dish) {
                 if (err) next (err);
                 res.json(dish);
@@ -29,11 +29,11 @@ bookRouter.route('/')
                 res.writeHead(200, { 'Content-Type': 'text/plain' });
                 res.end('Error when trying to save book');
             }else{
-                console.log('Books created!');
+                console.log('Book created!');
                 console.log(book);
                 var id = book._id;
 
-                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                //res.writeHead(200, { 'Content-Type': 'text/plain' });
                 res.end('Added the Book with id: ' + id);
             }
         });
