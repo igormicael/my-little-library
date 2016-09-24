@@ -40,8 +40,6 @@ exports.verifyOrdinaryUser = function(req, res, next) {
 
 exports.verifyAdmin = function (req, res, next){
 
-    console.log(req.decoded);
-
     if(!req.decoded){
         var err = new Error('You are not authorized to perform this action!')
         err.status = 403;
