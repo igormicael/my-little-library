@@ -1,12 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-/*var categorySchema = new Schema({
-    type: String,
-    enum: ['ROMANCE', 'FICTION', 'MANUAL', 'ADVENTURE']
-
-});*/
-
 // create a schema
 var bookSchema = new Schema({
     name: {

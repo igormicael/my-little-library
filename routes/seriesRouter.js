@@ -1,17 +1,21 @@
+/**
+ * Created by igor on 24/09/2016.
+ */
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var Books = require('../models/books');
+var Series = require('../models/series');
 var Verify = require('./verify');
 
-var bookRouter = express.Router();
+var seriesRouter = express.Router();
 
-bookRouter.use(bodyParser.json());
+seriesRouter.use(bodyParser.json());
 
-bookRouter.route('/')
+seriesRouter.route('/')
     .get(function(req, res, next) {
-        Books.find(req.query)
-            .populate('authors')
+        Series.find(req.query)
+            .populate('books')
             .exec(function(err, dish) {
                 if (err) next (err);
                 res.json(dish);
@@ -19,20 +23,20 @@ bookRouter.route('/')
     })
     .post(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
 
-        Books.create(req.body, function(err, book) {
+        Series.create(req.body, function(err, series) {
             if (err) {
                 console.log(err);
                 res.writeHead(200, { 'Content-Type': 'text/plain' });
-                res.end('Error when trying to save book');
+                res.end('Error when trying to save series');
             }else{
-                console.log('Book created!');
-                console.log(book);
-                var id = book._id;
+                console.log('series created!');
+                console.log(series);
+                var id = series._id;
 
                 //res.writeHead(200, { 'Content-Type': 'text/plain' });
-                res.end('Added the Book with id: ' + id);
+                res.end('Added the series with id: ' + id);
             }
         });
     });
 
-module.exports = bookRouter;
+module.exports = seriesRouter;
