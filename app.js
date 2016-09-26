@@ -12,6 +12,8 @@ var LocalStrategy = require('passport-local').Strategy;
 
 //var authenticate = require('./authenticate');
 
+var cors = require('cors');
+
 var config = require('./config');
 
 
@@ -32,6 +34,8 @@ var series = require('./routes/seriesRouter')
 var usersBooks = require('./routes/userBookRouter');
 
 var app = express();
+
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
