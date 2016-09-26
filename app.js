@@ -12,8 +12,6 @@ var LocalStrategy = require('passport-local').Strategy;
 
 //var authenticate = require('./authenticate');
 
-var cors = require('cors');
-
 var config = require('./config');
 
 
