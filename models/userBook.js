@@ -16,10 +16,10 @@ var userBookSchema = new Schema({
         ref: 'Books',
         required : true
     },
-    readingStatus : [{
+    readingStatus : {
         type: String,
         enum: ['READ','READING','RE-READING','ABANDONED']
-    }],
+    },
     comment : {
         type: String
     },
