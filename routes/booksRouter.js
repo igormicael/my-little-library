@@ -36,7 +36,7 @@ bookRouter.route('/')
     });
 
 bookRouter.route('/:bookId')
-    .get(/*Verify.verifyOrdinaryUser,*/ function (req, res, next) {
+    .get(Verify.verifyOrdinaryUser, function (req, res, next) {
         Books.findById(req.params.bookId, function (err, book) {
             if (err) next(err);
             res.json(book);

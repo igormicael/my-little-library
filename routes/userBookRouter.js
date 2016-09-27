@@ -14,10 +14,10 @@ var userBookRouter = express.Router();
 userBookRouter.use(bodyParser.json());
 
 userBookRouter.route('/')
-    .get( /*Verify.verifyOrdinaryUser,*/ function(req, res, next) {
+    .get( Verify.verifyOrdinaryUser, function(req, res, next) {
 
-        //UserBook.find({'user': req.decoded._id})
-        UserBook.find({ 'user': '57e5cbcb8c559b4a48ca408a' })
+        UserBook.find({'user': req.decoded._id})
+        //UserBook.find({ 'user': '57e5cbcb8c559b4a48ca408a' })
             .populate('user')
             .populate('book')
             .exec(function(err, dish) {
@@ -44,7 +44,7 @@ userBookRouter.route('/')
     });
 
 userBookRouter.route('/:userBookId')
-    .get( /*Verify.verifyOrdinaryUser, */ function(req, res, next) {
+    .get( Verify.verifyOrdinaryUser,  function(req, res, next) {
         UserBook.findById(req.params.userBookId)
             .populate('book')
             .exec(function(err, userBook) {
@@ -52,7 +52,7 @@ userBookRouter.route('/:userBookId')
                 res.json(userBook);
             })
     })
-    .put( /*Verify.verifyOrdinaryUser ,*/ function(req, res, next) {
+    .put( Verify.verifyOrdinaryUser , function(req, res, next) {
               
         UserBook.findByIdAndUpdate(req.params.userBookId, {
             $set: req.body
