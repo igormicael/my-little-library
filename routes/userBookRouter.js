@@ -27,7 +27,7 @@ userBookRouter.route('/')
     })
     .post(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
 
-        UserBook.create(req.body, function(err, userBook) {
+        UserBook.create({'book': req.body.book, 'user' : req.decoded._id , 'readingStatus' : 'READING' }, function(err, userBook) {
             if (err) {
                 console.log(err);
                 res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -37,7 +37,6 @@ userBookRouter.route('/')
                 console.log(userBook);
                 var id = userBook._id;
 
-                //res.writeHead(200, { 'Content-Type': 'text/plain' });
                 res.end('Added the UserBook with id: ' + id);
             }
         });
