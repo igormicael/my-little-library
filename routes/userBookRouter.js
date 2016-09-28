@@ -25,7 +25,7 @@ userBookRouter.route('/')
                 res.json(dish);
             })
     })
-    .post(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
+    .post(Verify.verifyOrdinaryUser, function(req, res, next) {
 
         UserBook.create({'book': req.body.book, 'user' : req.decoded._id , 'readingStatus' : 'READING' }, function(err, userBook) {
             if (err) {
@@ -33,11 +33,7 @@ userBookRouter.route('/')
                 res.writeHead(200, { 'Content-Type': 'text/plain' });
                 res.end('Error when trying to save userBook');
             } else {
-                console.log('Book created!');
-                console.log(userBook);
-                var id = userBook._id;
-
-                res.end('Added the UserBook with id: ' + id);
+                res.end('Added the UserBook with id');
             }
         });
     });
